@@ -4,7 +4,7 @@
   ],
   "build-depends" : [ ],
   "depends" : [ ],
-  "description" : "blah blah blah",
+  "description" : "A type for storing a caller allocated Buffer",
   "license" : "Artistic-2.0",
   "name" : "NativeHelpers::CBuffer",
   "perl" : "6.c",

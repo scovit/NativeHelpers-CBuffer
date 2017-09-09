@@ -2,6 +2,8 @@ use v6.c;
 use Test;
 use NativeHelpers::CBuffer;
 
-pass "replace me";
+my CBuffer $a = CBuffer.new(10);
+
+pass "NativeHelpers::CBuffer loaded correctly";
 
 done-testing;
