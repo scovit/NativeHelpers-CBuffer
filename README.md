@@ -22,6 +22,20 @@ DESCRIPTION
 
 NativeHelpers::CBuffer is a convinent way to store buffers and C NULL terminated strings
 
+EXAMPLE
+=======
+
+```perl6
+    use NativeHelpers::CBuffer;
+
+    my CBuffer $buf = CBuffer.new(100); # Allocates a buffer of 100 bytes
+
+    sub strncpy(CBuffer, Str, size_t) is native { };
+    strncpy($buf, "Uella!", 100);
+
+    say $buf; # Uella!
+```
+
 METHODS
 =======
 
@@ -89,20 +103,6 @@ same as `method Str`
 ```
 
 Calls `free` the allocated buffer
-
-EXAMPLE
-=======
-
-```perl6
-    use NativeHelpers::CBuffer;
-
-    my CBuffer $buf = CBuffer.new(100); # Allocates a buffer of 100 bytes
-
-    sub strncpy(CBuffer, Str, size_t) is native { };
-    strncpy($buf, "Uella!", 100);
-
-    say $buf; # Uella!
-```
 
 TODO
 ====
