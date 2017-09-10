@@ -9,7 +9,7 @@ class CBuffer is repr('CPointer') is export {
    sub strncpy(Pointer $dst, Str $src, size_t $len --> CBuffer) is native { }
    sub memcpy_A(Pointer $dest, Blob:D $src, size_t $size --> Pointer) is native is symbol('memcpy') { }
    sub memcpy_B(Blob:D $dest, CBuffer $src, size_t $size --> Pointer) is native is symbol('memcpy') { }
-   sub free(CBuffer $what) is native { }
+   sub free(Pointer $what) is native { }
 
    method size(--> size_t) {
        my Pointer[size_t] $size_loc = nqp::box_i(nqp::unbox_i(nqp::decont(self)) - nativesizeof(size_t), Pointer[size_t]);
@@ -17,8 +17,8 @@ class CBuffer is repr('CPointer') is export {
    }
    
    method type() {
-       my Pointer[size_t] $data_loc = nqp::box_i(nqp::unbox_i(nqp::decont(self)) - 2 * nativesizeof(size_t), Pointer[size_t]);
-       $types[$data_loc.deref];
+       my Pointer[size_t] $type_loc = nqp::box_i(nqp::unbox_i(nqp::decont(self)) - 2 * nativesizeof(size_t), Pointer[size_t]);
+       $types[$type_loc.deref];
    }
 
    method new(size_t $size, :$init, :$type where { $type ∈ $types } = uint8) {
@@ -61,5 +61,8 @@ class CBuffer is repr('CPointer') is export {
 
    method gist(--> Str) { self.Str; }
 
-   method free() { free(self); }
+   method free() {
+       my Pointer $type_loc = nqp::box_i(nqp::unbox_i(nqp::decont(self)) - 2 * nativesizeof(size_t), Pointer);
+       free($type_loc);
+   }
 }
