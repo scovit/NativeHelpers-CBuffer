@@ -1,7 +1,8 @@
 {
   "authors" : [
-    "Vittore F. Scolari"
+    "Vittore F. Scolari <vittore.scolari@pasteur.fr>"
   ],
+  "test-depends" : [ ],
   "build-depends" : [ ],
   "depends" : [ ],
   "description" : "A type for storing a caller allocated Buffer",
@@ -13,10 +14,7 @@
   },
   "repo-type" : "git",
   "source-url": "git://github.com/scovit/NativeHelpers-CBuffer.git",
-  "authors" : "Vittore F Scolari <vittore.scolari@pasteur.fr>",
-  "license" : "Artistic-2.0",
   "resources" : [ ],
   "tags" : [ "NativeCall", "Utilities", "Blob", "Pointer", "CPointer" ],
-  "test-depends" : [ ],
   "version" : "0.0.1"
 }
