@@ -11,9 +11,12 @@
   "provides" : {
     "NativeHelpers::CBuffer" : "lib/NativeHelpers/CBuffer.pm6"
   },
+  "repo-type" : "git",
+  "source-url": "git://github.com/scovit/NativeHelpers-CBuffer.git",
+  "authors" : "Vittore F Scolari <vittore.scolari@pasteur.fr>",
+  "license" : "Artistic-2.0",
   "resources" : [ ],
-  "source-url" : "",
-  "tags" : [ ],
+  "tags" : [ "NativeCall", "Utilities", "Blob", "Pointer", "CPointer" ],
   "test-depends" : [ ],
   "version" : "0.0.1"
 }
