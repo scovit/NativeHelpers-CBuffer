@@ -11,8 +11,11 @@ SYNOPSIS
 ```perl6
     use NativeHelpers::CBuffer;
 
-    my CBuffer $buf = CBuffer.new(100); # Allocates a buffer of 100 bytes
+   class CBuffer is repr('CPointer') is export
 ```
+
+The CBuffer object, is `repr("CPointer")`, as such, it can be directly used in
+`NativeCall` signatures in the place of a Pointer.
 
 DESCRIPTION
 ===========
@@ -86,6 +89,20 @@ same as `method Str`
 ```
 
 Calls `free` the allocated buffer
+
+EXAMPLE
+=======
+
+```perl6
+    use NativeHelpers::CBuffer;
+
+    my CBuffer $buf = CBuffer.new(100); # Allocates a buffer of 100 bytes
+
+    sub strncpy(CBuffer, Str, size_t) is native { };
+    strncpy($buf, "Uella!", 100);
+
+    say $buf; # Uella!
+```
 
 AUTHOR
 ======
