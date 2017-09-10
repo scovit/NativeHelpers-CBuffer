@@ -104,6 +104,15 @@ EXAMPLE
     say $buf; # Uella!
 ```
 
+TODO
+====
+
+At the moment, the CBuffer is immutable on the `perl` side, that means that,
+once created and initialized, the content can be only read or modified only
+by `C` functions. It is possible to implement `perl` side modifications using
+array-type access. It is possible to implement resizing through a call to
+`realloc` and `memset`.
+
 AUTHOR
 ======
 
