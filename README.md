@@ -120,14 +120,28 @@ same as `method Str`
 
 Calls `free` the allocated buffer
 
-TODO
-====
+BUGS, TODOS and WARNINGS 
+========================
 
-At the moment, the CBuffer is immutable on the `perl` side, that means that,
-once created and initialized, the content can be only read or modified only
-by `C` functions. It is possible to implement `perl` side modifications using
-array-type access. It is possible to implement resizing through a call to
-`realloc` and `memset`.
+At the moment, the `CBuffer` is immutable on the `perl` side,
+once created and initialized, it's content can be modified only
+by `C` functions. At the moment, the CBuffer is not resizable.
+
+The `CBuffer` uses `NativeCall` to allocate memory, beware of not
+using `CBuffer` in modules to allocate runtime memory during compilation.
+In other words, do not use `CBuffer.new` in `BEGIN` blocks or `constant`
+declarations, any abuse will result in Segmentation faults and/or
+memory corruption!
+
+In order to declare `C`-stile `#define` constants in modules,
+use `perl` macros:
+
+```perl6
+   # the following, is equivalent to
+     #define STRING_CONST     "The string"
+
+   macro STRING_CONST  is export { quasi { CBuffer.new("The string"); } };
+```
 
 AUTHOR
 ======
