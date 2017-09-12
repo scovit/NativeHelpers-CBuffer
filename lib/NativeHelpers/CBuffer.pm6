@@ -11,7 +11,7 @@ class CBuffer is repr('CPointer') is export {
    sub memcpy_B(Blob:D $dest, CBuffer $src, size_t $size --> Pointer) is native is symbol('memcpy') { }
    sub free(Pointer $what) is native { }
 
-   method size(--> size_t) {
+   method size(--> Int) {
        my Pointer[size_t] $size_loc = nqp::box_i(nqp::unbox_i(nqp::decont(self)) - nativesizeof(size_t), Pointer[size_t]);
        $size_loc.deref;
    }
@@ -21,9 +21,10 @@ class CBuffer is repr('CPointer') is export {
        $types[$type_loc.deref];
    }
 
-   method new(size_t $size, :$init, :$type where { $type ∈ $types } = uint8) {
-       my $s = $size;
-       my Pointer $type_loc = calloc($size * nativesizeof($type) + 2 * nativesizeof(size_t), 1);
+   multi method new(Int $size, :$init, :$type where { $type ∈ $types } = uint8) {
+       my Pointer $type_loc = calloc($size * nativesizeof($type) + 2 * nativesizeof(size_t), 1) or
+           die "Failed to allocate (out of memory)";
+
        my Pointer $size_loc = Pointer.new(+$type_loc + nativesizeof(size_t));
        my Pointer $data_loc = Pointer.new(+$size_loc + nativesizeof(size_t));
 
@@ -42,8 +43,20 @@ class CBuffer is repr('CPointer') is export {
        }
 
        memcpy_A($type_loc, Blob[size_t].new(code($type)), nativesizeof(size_t));
-       memcpy_A($size_loc, Blob[size_t].new($s),          nativesizeof(size_t));
+       memcpy_A($size_loc, Blob[size_t].new($size),       nativesizeof(size_t));
        nativecast(CBuffer, $data_loc);
+   }
+
+   multi method new(Blob $init) {
+       self.new($init.bytes, :init($init));
+   }
+
+   multi method new(Str $init) {
+       self.new(($init ~ "\x0").encode('ascii'));
+   }
+
+   multi method new() {
+       die "No default constructor for 'CBuffer', please specify the size to be allocated";
    }
 
    method Blob(--> Blob) {

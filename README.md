@@ -39,10 +39,10 @@ EXAMPLE
 METHODS
 =======
 
-## new
+## multi new (Int)
 
 ```perl6
-    method new(size_t $size, :$init, :$type where { $type ∈ $types } = uint8)
+    multi method new(Int $size, :$init, :$type where { $type ∈ $types } = uint8)
 ```
 
 Allocates a buffer of size `$size` elements, of type `$type` and with content a copy of `$init`.
@@ -51,6 +51,22 @@ Where `$init` can be either a Str or a Blob, and `$type` can be any of:
 ```perl6
     my $types = (uint8, int8, uint16, int16, uint32, int32, uint64, int64, size_t, long, ulong, longlong, ulonglong);
 ```
+
+## multi new (Blob)
+
+```perl6
+    multi method new(Blob $init)
+```
+
+Allocates a buffer and store the content of the `$init` parameter.
+
+## multi new (Str)
+
+```perl6
+    multi method new(Str $init)
+```
+
+Allocates a buffer and store the content of the `$init` parameter as a NULL-terminated ASCII string.
 
 ## size
 
