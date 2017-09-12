@@ -1,3 +1,6 @@
+use v6.c;
+unit module NativeHelpers::CBuffer:ver<0.0.2>:auth<Vittore F Scolari (vittore.scolari@gmail.com)>;
+
 use nqp;
 use NativeCall;
 
