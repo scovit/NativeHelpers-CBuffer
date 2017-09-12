@@ -78,7 +78,9 @@ class CBuffer is repr('CPointer') is export {
    method gist(--> Str) { self.Str; }
 
    method free() {
-       my Pointer $type_loc = nqp::box_i(nqp::unbox_i(nqp::decont(self)) - 2 * nativesizeof(size_t), Pointer);
-       free($type_loc);
+       if (defined self) {
+           my Pointer $type_loc = nqp::box_i(nqp::unbox_i(nqp::decont(self)) - 2 * nativesizeof(size_t), Pointer);
+           free($type_loc);
+       }
    }
 }
